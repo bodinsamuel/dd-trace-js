@@ -1,5 +1,6 @@
 'use strict'
 const http = require('http')
+const msgpack = require('msgpack-lite')
 
 http.createServer(async (req, res) => {
   res.statusCode = 200
@@ -14,9 +15,13 @@ http.createServer(async (req, res) => {
 async function streamLen (strm) {
   try {
     let len = 0
+//    const bufs = []
     for await (const buf of strm) {
       len += buf.length
+//      bufs.push(buf)
     }
+
+//    console.log(msgpack.decode(Buffer.concat(bufs)))
     return len
   } catch (e) {
     return 0
